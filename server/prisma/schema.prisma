@@ -1,0 +1,92 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  firstName String 
+  lastName String
+  userName String
+  password String 
+  email String @unique
+  telepon String? @unique
+  profile String?
+  isMemberActive Boolean @default(false)
+  Payment Payment[]
+  Post Post[]
+  comments Comment[]
+  favoriteVideos FavoriteVideo[]
+}
+
+model Payment {
+  id Int @id @default(autoincrement())
+  amount Float
+  paymentMethod String
+  paymentDate DateTime @default(now())
+  duration Int
+  validFrom DateTime?
+  validUntil DateTime?
+  paymentStatus Boolean @default(false)
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Vids{
+  id Int @id @default(autoincrement())
+  name String
+  title String
+  category String
+  description String
+  filePath String
+  fileKey String
+  fileDuration Int 
+  thumbnail String
+  uploadTime DateTime @default(now())
+  favoritedBy FavoriteVideo[]
+}
+
+model FavoriteVideo {
+  id Int @id @default(autoincrement())
+  userId Int
+  videoId Int
+  user User @relation(fields: [userId], references: [id])
+  video Vids @relation(fields: [videoId], references: [id])
+  favoritedAt DateTime @default(now())
+
+  @@unique([userId, videoId])
+}
+
+model Post{
+  id Int @id @default(autoincrement())
+  title String
+  content String
+  createdAt DateTime @default(now())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  pictures Picture[]
+  comments Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Picture {
+    id Int @id @default(autoincrement())
+    url String
+    postId Int
+    post Post @relation(fields: [postId], references: [id])
+}
