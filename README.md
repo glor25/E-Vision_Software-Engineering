@@ -21,9 +21,9 @@ WASABI_BUCKET=evision
 WASABI_REGION=ap-southeast-1
 WASABI_ENDPOINT=https://s3.ap-southeast-1.wasabisys.com
 
-6. open terminal
-7. split terminal
-8. ketik 
+4. open terminal
+5. split terminal
+6. ketik 
 terminal 1 (client) :
 cd client
 npm i
@@ -35,4 +35,4 @@ npx prisma db push --schema= schema.prisma
 npm i
 npm start
 
-9. klik link yang muncul dan ada localhostnya, contohnya : http://localhost:5173/login
+7. klik link yang muncul dan ada localhostnya, contohnya : http://localhost:5173/login
